@@ -6,6 +6,11 @@ export class Playground {
   }
   createPlayground() {
     const playground = document.getElementById(this.containerId);
+    playground.style.cssText = `
+    display: grid;
+    grid-template: repeat(${this.numRows}, 1fr) / repeat(${this.numColumns}, 1fr);
+    grid-gap: 0;
+  `;
     for (let row = 0; row < this.numRows; row++) {
       for (let column = 0; column < this.numColumns; column++) {
         const divElement = document.createElement("div");
@@ -13,9 +18,12 @@ export class Playground {
         divElement.setAttribute("id", divId);
         divElement.classList.add(
           "border",
-          "border-dark",
+          "border-warning",
           "border-opacity-25",
-          "border-1"
+          "border-1",
+          "d-flex",
+          "justify-content-center",
+          "align-items-center"
         );
         playground.appendChild(divElement);
       }

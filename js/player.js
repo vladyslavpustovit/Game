@@ -1,10 +1,11 @@
 export class Player {
   constructor(gameMap) {
     this.player = new Image();
-    this.player.src = "../img/playerIcon.png";
+    this.player.src = "../img/playerIcon.gif";
     this.player.classList.add("player");
-    this.posX = 4;
-    this.posY = 4;
+    this.posX = Math.floor(gameMap.numColumns / 2);
+    this.posY = Math.floor(gameMap.numRows / 2);
+
     this.gameMap = gameMap;
 
     this.handleKeyDown = this.handleKeyDown.bind(this);

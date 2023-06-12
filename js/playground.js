@@ -26,22 +26,41 @@ export class Playground {
           "justify-content-center",
           "align-items-center"
         );
+
         playground.appendChild(divElement);
       }
     }
   }
 
   genCoins() {
-    for (let i = 0; i < 3; i++) {
+    const usedCells = new Set(); // Track the cells that already have coins
+    while (this.coinsArr.length < 3) {
       const x = Math.floor(Math.random() * this.numColumns);
       const y = Math.floor(Math.random() * this.numRows);
       const coinId = `div-${x}-${y}`;
-      const coinPos = document.getElementById(coinId);
-      const coinImg = document.createElement("img");
-      coinImg.src = "../img/coin.gif";
-      coinImg.classList.add("coin");
-      coinPos.append(coinImg);
-      this.coinsArr.push(coinPos);
+      if (!usedCells.has(coinId)) {
+        const coinPos = document.getElementById(coinId);
+        const coinImg = document.createElement("img");
+        coinImg.src = "../img/coin.gif";
+        coinImg.classList.add("coin");
+        coinPos.append(coinImg);
+        this.coinsArr.push(coinPos);
+        usedCells.add(coinId);
+      }
     }
+  }
+
+  genStar() {
+    setTimeout(() => {
+      const x = Math.floor(Math.random() * this.numColumns);
+      const y = Math.floor(Math.random() * this.numRows);
+      const coinId = `div-${x}-${y}`;
+      const starPos = document.getElementById(coinId);
+      const starImg = document.createElement("img");
+      starImg.src = "../img/star.gif";
+      starImg.classList.add("star");
+      starPos.append(starImg);
+      this.coinsArr.push(starPos);
+    }, 10000);
   }
 }

@@ -25,13 +25,11 @@
     </div>
     <div class="container d-flex justify-content-center align-items-center">
       <div class="border border-5 border-warning" id="playground"></div>
-      <embed
-        src="./Fun/bg_sound.mp3"
-        loop="true"
-        autostart="true"
-        width="0"
-        height="0"
-      />
+
+      <audio id="bg-sound" autoplay loop>
+        <source src="./Fun/bg_sound.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
     </div>
     <!-- Bootstrap JavaScript Libraries -->
     <script type="module" src="js/index.js"></script>

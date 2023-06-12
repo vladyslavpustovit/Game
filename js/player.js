@@ -61,35 +61,106 @@ export class Player {
     }
   }
 
+  attachClickEvent(playerCell) {
+    let cellsToGo = [];
+    const [_, row, col] = playerCell.getAttribute("id").split("-");
+    const clickY = parseInt(row);
+    const clickX = parseInt(col);
+    cellsToGo = [
+      `div-${clickX + 1}-${clickY}`,
+      `div-${clickX - 1}-${clickY}`,
+      `div-${clickX}-${clickY + 1}`,
+      `div-${clickX}-${clickY - 1}`,
+    ];
+    console.log(cellsToGo);
+    for (const cellID of cellsToGo) {
+      const cell = document.getElementById(cellID);
+      if (cell) {
+        cell.addEventListener("click", this.handleCellClick.bind(this, cell));
+      }
+    }
+  }
+
+  handleCellClick(cell) {
+    const [_, row, col] = cell.getAttribute("id").split("-");
+    const newX = parseInt(col);
+    const newY = parseInt(row);
+
+    if (this.isValidMove(newX, newY)) {
+      this.posX = newX;
+      this.posY = newY;
+      this.updatePlayerPosition();
+    }
+  }
+
+  isValidMove(newX, newY) {
+    const rowDiff = Math.abs(newY - this.posY);
+    const colDiff = Math.abs(newX - this.posX);
+    return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
+  }
+
   updatePlayerPosition() {
     this.currentPos = `div-${this.posY}-${this.posX}`;
     const playerCell = document.getElementById(this.currentPos);
     playerCell.append(this.player);
+    this.attachClickEvent(playerCell);
     this.collectCoin();
   }
   collectCoin() {
-    const score = document.getElementById("score");
-    let sound = new Audio("../Fun/coinSound.mp3");
-    for (let i = 0; i < 3; i++) {
+    let coinSound = new Audio("../Fun/coinSound.mp3");
+    let starSound = new Audio("../Fun/star.mp3");
+
+    for (let i = 0; i < this.gameMap.coinsArr.length; i++) {
       const coinPos = this.gameMap.coinsArr[i];
       if (
         this.currentPos === coinPos.getAttribute("id") &&
-        coinPos.firstElementChild != this.player
+        coinPos.firstElementChild.getAttribute("class") === "coin"
       ) {
-        sound.play();
+        coinSound.play();
         coinPos.removeChild(coinPos.firstElementChild);
         this.gameMap.coinsArr.splice(i, 1);
         this.score++;
-        if (this.score >= 25 && this.score < 50) {
-          score.classList.add("text-warning");
-        } else if (this.score >= 50) {
-          score.classList.add("text-danger");
-        }
-        score.innerHTML = `Score: ${this.score}`;
+        this.updateScore();
+      } else if (
+        this.currentPos === coinPos.getAttribute("id") &&
+        coinPos.firstElementChild.getAttribute("class") === "star"
+      ) {
+        starSound.play();
+        coinPos.removeChild(coinPos.firstElementChild);
+        this.gameMap.coinsArr.splice(i, 1);
+        this.score += 5;
+        this.updateScore();
+        this.gameMap.genStar();
       }
+
       if (this.gameMap.coinsArr.length == 0) {
         this.gameMap.genCoins();
       }
+    }
+  }
+
+  updateScore() {
+    const score = document.getElementById("score");
+    let swamp = new Audio("../Fun/swamp.mp3");
+    let crazy = new Audio("../Fun/crazy.mp3");
+    let ohmy = new Audio("../Fun/myGod.mp3");
+    let how = new Audio("../Fun/how.mp3");
+    score.innerHTML = `Score: ${this.score}`;
+    if (this.score === 25) {
+      score.classList.add("text-info");
+      swamp.play();
+    } else if (this.score === 50) {
+      score.classList.add("text-success");
+      score.classList.remove("text-info");
+      ohmy.play();
+    } else if (this.score === 75) {
+      score.classList.add("text-warning");
+      score.classList.remove("text-success");
+      crazy.play();
+    } else if (this.score === 100) {
+      score.classList.add("text-danger");
+      score.classList.remove("text-warning");
+      how.play();
     }
   }
 }

@@ -3,6 +3,7 @@ export class Playground {
     this.containerId = containerId;
     this.numRows = numRows;
     this.numColumns = numColumns;
+    this.coinsArr = [];
   }
   createPlayground() {
     const playground = document.getElementById(this.containerId);
@@ -27,6 +28,20 @@ export class Playground {
         );
         playground.appendChild(divElement);
       }
+    }
+  }
+
+  genCoins() {
+    for (let i = 0; i < 3; i++) {
+      const x = Math.floor(Math.random() * this.numColumns);
+      const y = Math.floor(Math.random() * this.numRows);
+      const coinId = `div-${x}-${y}`;
+      const coinPos = document.getElementById(coinId);
+      const coinImg = document.createElement("img");
+      coinImg.src = "../img/coin.gif";
+      coinImg.classList.add("coin");
+      coinPos.append(coinImg);
+      this.coinsArr.push(coinPos);
     }
   }
 }

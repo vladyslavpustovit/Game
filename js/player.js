@@ -16,16 +16,16 @@ export class Player {
 
   handleKeyDown(event) {
     switch (event.key) {
-      case "ArrowUp":
+      case "w" || "W":
         this.moveUp();
         break;
-      case "ArrowDown":
+      case "s" || "S":
         this.moveDown();
         break;
-      case "ArrowRight":
+      case "d" || "D":
         this.moveRight();
         break;
-      case "ArrowLeft":
+      case "a" || "A":
         this.moveLeft();
         break;
       default:
@@ -146,6 +146,91 @@ export class Player {
     let ohmy = new Audio("../Fun/myGod.mp3");
     let how = new Audio("../Fun/how.mp3");
     score.innerHTML = `Score: ${this.score}`;
+
+    if (this.score === 25) {
+      score.classList.add("text-info");
+      swamp.play();
+    } else if (this.score === 50) {
+      score.classList.add("text-success");
+      score.classList.remove("text-info");
+      ohmy.play();
+    } else if (this.score === 75) {
+      score.classList.add("text-warning");
+      score.classList.remove("text-success");
+      crazy.play();
+    } else if (this.score === 100) {
+      score.classList.add("text-danger");
+      score.classList.remove("text-warning");
+      how.play();
+    }
+  }
+}
+
+export class Player2 extends Player {
+  constructor(gameMap) {
+    super(gameMap);
+    this.posX = Math.floor(gameMap.numColumns / 2 + 10);
+    this.posY = Math.floor(gameMap.numRows / 2 + 10);
+    this.player = new Image();
+    this.player.src = "../img/playerIcon2.gif";
+    this.player.classList.add("player2");
+  }
+
+  handleKeyDown(event) {
+    switch (event.key) {
+      case "ArrowUp":
+        this.moveUp();
+        break;
+      case "ArrowDown":
+        this.moveDown();
+        break;
+      case "ArrowRight":
+        this.moveRight();
+        break;
+      case "ArrowLeft":
+        this.moveLeft();
+        break;
+      default:
+        break;
+    }
+  }
+
+  moveUp() {
+    if (this.posY > 10) {
+      this.posY--;
+      this.updatePlayerPosition();
+    }
+  }
+
+  moveDown() {
+    if (this.posY < this.gameMap.numRows - 1 + 10) {
+      this.posY++;
+      this.updatePlayerPosition();
+    }
+  }
+
+  moveRight() {
+    if (this.posX < this.gameMap.numColumns - 1 + 10) {
+      this.posX++;
+      this.updatePlayerPosition();
+    }
+  }
+
+  moveLeft() {
+    if (this.posX > 10) {
+      this.posX--;
+      this.updatePlayerPosition();
+    }
+  }
+
+  updateScore() {
+    const score = document.getElementById("score2");
+    let swamp = new Audio("../Fun/swamp.mp3");
+    let crazy = new Audio("../Fun/crazy.mp3");
+    let ohmy = new Audio("../Fun/myGod.mp3");
+    let how = new Audio("../Fun/how.mp3");
+    score.innerHTML = `Score: ${this.score}`;
+
     if (this.score === 25) {
       score.classList.add("text-info");
       swamp.play();

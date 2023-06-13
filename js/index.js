@@ -3,22 +3,104 @@ import { Playground2 } from "./playground.js";
 import { Player } from "./player.js";
 import { Player2 } from "./player.js";
 
-let bgSound = document.getElementById("bg-sound");
-bgSound.volume = 0.4;
+class Game {
+  constructor(player1, player2, playground1, playground2) {
+    this.player1 = player1;
+    this.player2 = player2;
+    this.playground1 = playground1;
+    this.playground2 = playground2;
+
+    this.gameContainer = document.getElementById("game");
+    this.startContainer = document.getElementById("start-container");
+    this.winnerContainer = document.getElementById("winner-container");
+    this.bgSound = document.getElementById("bg-sound");
+  }
+
+  startGame() {
+    this.player1.score = 0;
+    this.player1.updateScore();
+    this.player2.score = 0;
+    this.player2.updateScore();
+    this.startContainer.style.display = "none";
+    this.winnerContainer.style.display = "none";
+    this.gameContainer.style.display = "block";
+    this.startTimer();
+  }
+
+  rematch() {}
+
+  preload() {
+    this.playground1.createPlayground();
+    this.playground1.genCoins();
+    this.playground1.genStar();
+
+    this.player1.updatePlayerPosition();
+    /*  INITIALIZING PLAYGROUNDS AND PLAYERS FIRST TIME*/
+    this.playground2.createPlayground();
+    this.playground2.genCoins();
+    this.playground2.genStar();
+
+    this.player2.updatePlayerPosition();
+  }
+
+  startTimer() {
+    let seconds = 30;
+    let timer = setInterval(() => {
+      let timerBoard = document.getElementById("secs");
+      timerBoard.innerHTML = seconds;
+
+      if (seconds > 0) {
+        seconds--;
+      } else {
+        clearInterval(timer);
+        this.showWinner(this.getWinner());
+      }
+    }, 1000);
+  }
+
+  getWinner() {
+    let winner;
+    if (this.player1.score > this.player2.score) {
+      winner = this.player1;
+      winner.name = "Player 1";
+    } else if (this.player2.score > this.player1.score) {
+      winner = this.player2;
+      winner.name = "Player 2";
+    } else {
+      winner = null;
+    }
+    return winner;
+  }
+
+  showWinner(winner) {
+    const winnerMsg = document.getElementById("winner-heading");
+    this.gameContainer.style.display = "none";
+    this.winnerContainer.style.display = "flex";
+    if (winner) {
+      winnerMsg.innerHTML = `The winner is ${winner.name} with ${winner.score} point(-s).`;
+    } else {
+      winnerMsg.innerHTML = "It's a tie!";
+    }
+  }
+
+  audioPlay() {
+    if (this.bgSound.muted == false) {
+      this.bgSound.muted = true;
+    } else {
+      this.bgSound.muted = false;
+    }
+  }
+}
 
 let playground1 = new Playground("playground", 5, 5);
-playground1.createPlayground();
-playground1.genCoins();
-playground1.genStar();
-
-let player = new Player(playground1);
-player.updatePlayerPosition();
-
+let player1 = new Player(playground1);
 let playground2 = new Playground2("playground2", 5, 5);
-
-playground2.createPlayground();
-playground2.genCoins();
-playground2.genStar();
-
 let player2 = new Player2(playground2);
-player2.updatePlayerPosition();
+
+let game1 = new Game(player1, player2, playground1, playground2);
+game1.preload();
+
+const startBtn = document.getElementById("start-btn");
+const rematchBtn = document.getElementById("rematch-btn");
+startBtn.addEventListener("click", game1.startGame.bind(game1));
+rematchBtn.addEventListener("click", game1.startGame.bind(game1));

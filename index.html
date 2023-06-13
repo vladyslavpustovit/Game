@@ -16,23 +16,64 @@
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="styles/style.css" />
   </head>
 
   <body class="bg-dark">
-    <div class="text-center">
-      <h3 id="score" class="bg-dark">Player1: 0</h3>
-      <h3 id="score2" class="bg-dark">Player2: 0</h3>
+    <div id="start-container">
+      <div id="welcome">
+        <h1 id="welcome-heading">Welcome</h1>
+        <button type="button" class="start-btn" id="start-btn">
+          START GAME
+        </button>
+      </div>
     </div>
+    <div id="game">
+      <div class="text-center p-0 m-0 d-flex justify-content-evenly">
+        <div class="bg-dark score-board">
+          <h3 class="score-heading px-3 mt-3">
+            Player 1
+            <p id="score" class="mt-2">0</p>
+          </h3>
+        </div>
+        <div id="timer" class="bg-dark w-25 text-center">
+          <h1 id="secs" class="bold text-danger pt-4">30</h1>
+          <!-- <i
+            class="fa-solid fa-volume-high fs-1 text-warning position-absolute"
+          ></i> -->
+        </div>
+        <div class="bg-dark score-board">
+          <h3 class="score-heading px-3 mt-3">
+            Player 2
+            <p id="score2" class="mt-2">0</p>
+          </h3>
+        </div>
+      </div>
 
-    <div class="container d-flex justify-content-center align-items-center">
-      <div class="border border-5 border-warning" id="playground"></div>
-      <div class="border border-5 border-warning" id="playground2"></div>
+      <div class="container d-flex justify-content-center">
+        <div class="border border-5 border-warning" id="playground"></div>
+        <div class="border border-5 border-warning" id="playground2"></div>
 
-      <audio id="bg-sound" autoplay loop>
-        <source src="./Fun/bg_sound.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+        <audio id="bg-sound" autoplay loop>
+          <source src="./Fun/bg_sound.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    </div>
+    <div id="winner-container">
+      <div id="winner">
+        <h1 id="winner-heading"></h1>
+        <button type="button" id="rematch-btn" class="start-btn">
+          REMATCH
+        </button>
+      </div>
     </div>
     <!-- Bootstrap JavaScript Libraries -->
     <script type="module" src="js/index.js"></script>

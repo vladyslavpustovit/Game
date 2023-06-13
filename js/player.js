@@ -145,7 +145,7 @@ export class Player {
     let crazy = new Audio("../Fun/crazy.mp3");
     let ohmy = new Audio("../Fun/myGod.mp3");
     let how = new Audio("../Fun/how.mp3");
-    score.innerHTML = `Score: ${this.score}`;
+    score.innerHTML = this.score;
 
     if (this.score === 25) {
       score.classList.add("text-info");
@@ -229,7 +229,7 @@ export class Player2 extends Player {
     let crazy = new Audio("../Fun/crazy.mp3");
     let ohmy = new Audio("../Fun/myGod.mp3");
     let how = new Audio("../Fun/how.mp3");
-    score.innerHTML = `Score: ${this.score}`;
+    score.innerHTML = this.score;
 
     if (this.score === 25) {
       score.classList.add("text-info");

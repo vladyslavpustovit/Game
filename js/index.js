@@ -24,20 +24,20 @@ class Game {
     this.startTimer();
   }
 
-  rematch() {
-    this.playground1.coinsArr.forEach((coinPos) => {
-      const coinElement = coinPos.querySelector(".coin");
-      const starElement = coinPos.querySelector(".star");
-      if (coinElement) {
-        coinElement.remove();
-      } else if (starElement) {
-        starElement.remove();
-      }
-    });
-    this.playground1.coinsArr = []; // Clear the coinsArr array
+  // rematch() {
+  //   this.playground1.coinsArr.forEach((coinPos) => {
+  //     const coinElement = coinPos.querySelector(".coin");
+  //     const starElement = coinPos.querySelector(".star");
+  //     if (coinElement) {
+  //       coinElement.remove();
+  //     } else if (starElement) {
+  //       starElement.remove();
+  //     }
+  //   });
+  //   this.playground1.coinsArr = []; // Clear the coinsArr array
 
-    this.startGame();
-  }
+  //   this.startGame();
+  // }
 
   preload() {
     this.playground1.createPlayground();
@@ -134,4 +134,4 @@ game1.preload();
 const startBtn = document.getElementById("start-btn");
 const rematchBtn = document.getElementById("rematch-btn");
 startBtn.addEventListener("click", game1.startGame.bind(game1));
-rematchBtn.addEventListener("click", game1.rematch.bind(game1));
+rematchBtn.addEventListener("click", game1.startGame.bind(game1));

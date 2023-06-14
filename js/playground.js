@@ -4,6 +4,7 @@ export class Playground {
     this.numRows = numRows;
     this.numColumns = numColumns;
     this.coinsArr = [];
+    this.bombInterval;
   }
   createPlayground() {
     const playground = document.getElementById(this.containerId);
@@ -63,6 +64,42 @@ export class Playground {
       this.coinsArr.push(starPos);
     }, 10000);
   }
+
+  // genBomb() {
+  //   setTimeout(() => {
+  //     const x = Math.floor(Math.random() * this.numColumns);
+  //     const y = Math.floor(Math.random() * this.numRows);
+  //     const bombId = `div-${x}-${y}`;
+  //     const bombPos = document.getElementById(bombId);
+  //     const bombImg = document.createElement("img");
+  //     bombImg.src = "../img/bomb.gif";
+  //     bombImg.classList.add("bomb");
+  //     bombPos.append(bombImg);
+  //     this.coinsArr.push(bombPos);
+  //   }, 5000);
+  // }
+
+  // removeBomb() {
+  //   const bombPos = this.coinsArr.find(
+  //     (element) => element.getElementsByClassName("bomb").length > 0
+  //   );
+  //   if (bombPos) {
+  //     const bombImg = bombPos.getElementsByClassName("bomb")[0];
+  //     bombImg.remove();
+  //     const index = this.coinsArr.indexOf(bombPos);
+  //     if (index !== -1) {
+  //       this.coinsArr.splice(index, 1);
+  //     }
+  //   }
+  // }
+
+  // startBombInterval() {
+  //   this.removeBomb(); // Remove existing bomb immediately
+  //   this.bombInterval = setInterval(() => {
+  //     this.removeBomb(); // Remove existing bomb every 5 seconds
+  //     this.genBomb(); // Generate new bomb
+  //   }, 5000);
+  // }
 }
 
 /*PLAYGROUND2*/
@@ -134,4 +171,18 @@ export class Playground2 extends Playground {
       this.coinsArr.push(starPos);
     }, 10000);
   }
+
+  // genBomb() {
+  //   setTimeout(() => {
+  //     const x = Math.floor(Math.random() * this.numColumns + 10);
+  //     const y = Math.floor(Math.random() * this.numRows + 10);
+  //     const bombId = `div-${x}-${y}`;
+  //     const bombPos = document.getElementById(bombId);
+  //     const bombImg = document.createElement("img");
+  //     bombImg.src = "../img/bomb.gif";
+  //     bombImg.classList.add("bomb");
+  //     bombPos.append(bombImg);
+  //     this.coinsArr.push(bombPos);
+  //   }, 5000);
+  // }
 }

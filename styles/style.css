@@ -44,6 +44,7 @@ body {
 #score2 {
   font-family: "Press Start 2P", cursive;
   color: bisque;
+  margin-top: 0.5rem;
 }
 
 .star {
@@ -154,12 +155,11 @@ body {
   .container {
     min-width: 80vw;
     min-height: 40vh;
-    margin-top: 2rem;
   }
   #playground,
   #playground2 {
     width: 100vw;
-    height: 70vw;
+    height: 60vw;
   }
   #secs {
     font-size: 1.5em;
@@ -170,4 +170,10 @@ body {
   #welcome-heading {
     font-size: 3em;
   }
+}
+
+.bomb {
+  width: 40%;
+  height: 50%;
+  filter: drop-shadow(0px 10px 5px black);
 }

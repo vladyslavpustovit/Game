@@ -10,6 +10,11 @@ export class Player {
 
     this.gameMap = gameMap;
 
+    this.swampFlag = true;
+    this.crazyFlag = true;
+    this.ohmyFlag = true;
+    this.howFlag = true;
+
     this.handleKeyDown = this.handleKeyDown.bind(this);
     document.addEventListener("keydown", this.handleKeyDown);
   }
@@ -72,7 +77,7 @@ export class Player {
       `div-${clickX}-${clickY + 1}`,
       `div-${clickX}-${clickY - 1}`,
     ];
-    console.log(cellsToGo);
+    // console.log(cellsToGo);
     for (const cellID of cellsToGo) {
       const cell = document.getElementById(cellID);
       if (cell) {
@@ -106,36 +111,72 @@ export class Player {
     this.attachClickEvent(playerCell);
     this.collectCoin();
   }
+  // collectCoin() {
+  //   let coinSound = new Audio("../Fun/coinSound.mp3");
+  //   let starSound = new Audio("../Fun/star.mp3");
+
+  //   for (let i = 0; i < this.gameMap.coinsArr.length; i++) {
+  //     const coinPos = this.gameMap.coinsArr[i];
+  //     if (
+  //       this.currentPos === coinPos.getAttribute("id") &&
+  //       coinPos.firstElementChild.getAttribute("class") === "coin"
+  //     ) {
+  //       coinSound.play();
+  //       coinPos.removeChild(coinPos.firstElementChild);
+  //       this.gameMap.coinsArr.splice(i, 1);
+  //       this.score++;
+  //       this.updateScore();
+  //     } else if (
+  //       this.currentPos === coinPos.getAttribute("id") &&
+  //       coinPos.firstElementChild.getAttribute("class") === "star"
+  //     ) {
+  //       starSound.play();
+  //       coinPos.removeChild(coinPos.firstElementChild);
+  //       this.gameMap.coinsArr.splice(i, 1);
+  //       this.score += 5;
+  //       this.updateScore();
+  //       this.gameMap.genStar();
+
+  //     if (this.gameMap.coinsArr.length == 0) {
+  //       this.gameMap.genCoins();
+  //     }
+  //   }
+  // }
+
   collectCoin() {
     let coinSound = new Audio("../Fun/coinSound.mp3");
     let starSound = new Audio("../Fun/star.mp3");
 
-    for (let i = 0; i < this.gameMap.coinsArr.length; i++) {
-      const coinPos = this.gameMap.coinsArr[i];
-      if (
-        this.currentPos === coinPos.getAttribute("id") &&
-        coinPos.firstElementChild.getAttribute("class") === "coin"
-      ) {
-        coinSound.play();
-        coinPos.removeChild(coinPos.firstElementChild);
-        this.gameMap.coinsArr.splice(i, 1);
-        this.score++;
-        this.updateScore();
-      } else if (
-        this.currentPos === coinPos.getAttribute("id") &&
-        coinPos.firstElementChild.getAttribute("class") === "star"
-      ) {
-        starSound.play();
-        coinPos.removeChild(coinPos.firstElementChild);
-        this.gameMap.coinsArr.splice(i, 1);
-        this.score += 5;
-        this.updateScore();
-        this.gameMap.genStar();
-      }
+    const currentCell = document.getElementById(this.currentPos);
 
-      if (this.gameMap.coinsArr.length == 0) {
-        this.gameMap.genCoins();
-      }
+    const coins = currentCell.getElementsByClassName("coin");
+    const stars = currentCell.getElementsByClassName("star");
+    const bomb = currentCell.getElementsByClassName("bomb");
+
+    if (coins.length > 0) {
+      coinSound.play();
+      currentCell.removeChild(coins[0]);
+      this.gameMap.coinsArr.splice(this.gameMap.coinsArr.indexOf(coins[0]), 1);
+      this.score++;
+      this.updateScore();
+    } else if (stars.length > 0) {
+      starSound.play();
+      currentCell.removeChild(stars[0]);
+      this.gameMap.coinsArr.splice(this.gameMap.coinsArr.indexOf(stars[0]), 1);
+      this.score += 5;
+      this.updateScore();
+      this.gameMap.genStar();
+    } else if (bomb.length > 0) {
+      starSound.play();
+      currentCell.removeChild(bomb[0]);
+      this.gameMap.coinsArr.splice(this.gameMap.coinsArr.indexOf(bomb[0]), 1);
+      this.score -= 5;
+      this.updateScore();
+      this.gameMap.genBomb();
+    }
+
+    if (this.gameMap.coinsArr.length === 0) {
+      this.gameMap.genCoins();
     }
   }
 
@@ -146,22 +187,25 @@ export class Player {
     let ohmy = new Audio("../Fun/myGod.mp3");
     let how = new Audio("../Fun/how.mp3");
     score.innerHTML = this.score;
-
-    if (this.score === 25) {
+    if (this.score >= 25 && this.swampFlag) {
       score.classList.add("text-info");
       swamp.play();
-    } else if (this.score === 50) {
+      this.swampFlag = false;
+    } else if (this.score >= 50 && this.crazyFlag) {
       score.classList.add("text-success");
       score.classList.remove("text-info");
       ohmy.play();
-    } else if (this.score === 75) {
+      this.crazyFlag = false;
+    } else if (this.score >= 75 && this.ohmyFlag) {
       score.classList.add("text-warning");
       score.classList.remove("text-success");
       crazy.play();
-    } else if (this.score === 100) {
+      this.ohmyFlag = false;
+    } else if (this.score >= 100 && this.howFlag) {
       score.classList.add("text-danger");
       score.classList.remove("text-warning");
       how.play();
+      this.howFlag = false;
     }
   }
 }
@@ -230,22 +274,25 @@ export class Player2 extends Player {
     let ohmy = new Audio("../Fun/myGod.mp3");
     let how = new Audio("../Fun/how.mp3");
     score.innerHTML = this.score;
-
-    if (this.score === 25) {
+    if (this.score >= 25 && this.swampFlag) {
       score.classList.add("text-info");
       swamp.play();
-    } else if (this.score === 50) {
+      this.swampFlag = false;
+    } else if (this.score >= 50 && this.crazyFlag) {
       score.classList.add("text-success");
       score.classList.remove("text-info");
       ohmy.play();
-    } else if (this.score === 75) {
+      this.crazyFlag = false;
+    } else if (this.score >= 75 && this.ohmyFlag) {
       score.classList.add("text-warning");
       score.classList.remove("text-success");
       crazy.play();
-    } else if (this.score === 100) {
+      this.ohmyFlag = false;
+    } else if (this.score >= 100 && this.howFlag) {
       score.classList.add("text-danger");
       score.classList.remove("text-warning");
       how.play();
+      this.howFlag = false;
     }
   }
 }

@@ -17,37 +17,68 @@ class Game {
   }
 
   startGame() {
-    this.player1.score = 0;
-    this.player1.updateScore();
-    this.player2.score = 0;
-    this.player2.updateScore();
+    this.refreshGame();
     this.startContainer.style.display = "none";
     this.winnerContainer.style.display = "none";
     this.gameContainer.style.display = "block";
     this.startTimer();
   }
 
-  rematch() {}
+  rematch() {
+    this.playground1.coinsArr.forEach((coinPos) => {
+      const coinElement = coinPos.querySelector(".coin");
+      const starElement = coinPos.querySelector(".star");
+      if (coinElement) {
+        coinElement.remove();
+      } else if (starElement) {
+        starElement.remove();
+      }
+    });
+    this.playground1.coinsArr = []; // Clear the coinsArr array
+
+    this.startGame();
+  }
 
   preload() {
     this.playground1.createPlayground();
     this.playground1.genCoins();
     this.playground1.genStar();
-
+    // this.playground1.startBombInterval();
     this.player1.updatePlayerPosition();
     /*  INITIALIZING PLAYGROUNDS AND PLAYERS FIRST TIME*/
     this.playground2.createPlayground();
     this.playground2.genCoins();
     this.playground2.genStar();
+    // this.playground2.startBombInterval();
 
     this.player2.updatePlayerPosition();
   }
 
+  refreshGame() {
+    // Score to 0
+    this.player1.score = 0;
+    this.player1.updateScore();
+    this.player2.score = 0;
+    this.player2.updateScore();
+
+    // Clear score style
+    document.getElementById("score").className = "";
+    document.getElementById("score2").className = "";
+
+    // Player to the center
+    this.player1.posX = Math.floor(playground1.numColumns / 2);
+    this.player1.posY = Math.floor(playground1.numRows / 2);
+    this.player2.posX = Math.floor(playground2.numColumns / 2 + 10);
+    this.player2.posY = Math.floor(playground2.numRows / 2 + 10);
+    this.player1.updatePlayerPosition();
+    this.player2.updatePlayerPosition();
+  }
+
   startTimer() {
-    let seconds = 30;
+    let seconds = 5;
     let timer = setInterval(() => {
       let timerBoard = document.getElementById("secs");
-      timerBoard.innerHTML = seconds;
+      timerBoard.innerHTML = `-${seconds}-`;
 
       if (seconds > 0) {
         seconds--;
@@ -77,7 +108,7 @@ class Game {
     this.gameContainer.style.display = "none";
     this.winnerContainer.style.display = "flex";
     if (winner) {
-      winnerMsg.innerHTML = `The winner is ${winner.name} with ${winner.score} point(-s).`;
+      winnerMsg.innerHTML = `The winner is <small style="color: white">${winner.name}</small> with <small style="color: white">${winner.score}</small> point(-s).`;
     } else {
       winnerMsg.innerHTML = "It's a tie!";
     }
@@ -103,4 +134,4 @@ game1.preload();
 const startBtn = document.getElementById("start-btn");
 const rematchBtn = document.getElementById("rematch-btn");
 startBtn.addEventListener("click", game1.startGame.bind(game1));
-rematchBtn.addEventListener("click", game1.startGame.bind(game1));
+rematchBtn.addEventListener("click", game1.rematch.bind(game1));

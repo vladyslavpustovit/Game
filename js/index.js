@@ -75,7 +75,7 @@ class Game {
   }
 
   startTimer() {
-    let seconds = 5;
+    let seconds = 60;
     let timer = setInterval(() => {
       let timerBoard = document.getElementById("secs");
       timerBoard.innerHTML = `-${seconds}-`;

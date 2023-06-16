@@ -25,7 +25,8 @@ export class Playground {
           "border-1",
           "d-flex",
           "justify-content-center",
-          "align-items-center"
+          "align-items-center",
+          "position-relative"
         );
 
         playground.appendChild(divElement);
@@ -132,7 +133,8 @@ export class Playground2 extends Playground {
           "border-1",
           "d-flex",
           "justify-content-center",
-          "align-items-center"
+          "align-items-center",
+          "position-relative"
         );
 
         playground.appendChild(divElement);

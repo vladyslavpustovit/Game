@@ -56,6 +56,7 @@ export class Player {
     if (this.posX < this.gameMap.numColumns - 1) {
       this.posX++;
       this.updatePlayerPosition();
+      this.player.style.transform = "scaleX(1)";
     }
   }
 
@@ -63,6 +64,7 @@ export class Player {
     if (this.posX > 0) {
       this.posX--;
       this.updatePlayerPosition();
+      this.player.style.transform = "scaleX(-1)";
     }
   }
 
@@ -257,6 +259,7 @@ export class Player2 extends Player {
     if (this.posX < this.gameMap.numColumns - 1 + 10) {
       this.posX++;
       this.updatePlayerPosition();
+      this.player.style.transform = "scaleX(1)";
     }
   }
 
@@ -264,6 +267,7 @@ export class Player2 extends Player {
     if (this.posX > 10) {
       this.posX--;
       this.updatePlayerPosition();
+      this.player.style.transform = "scaleX(-1)";
     }
   }
 

@@ -2,11 +2,15 @@ import { Playground } from "./playground.js";
 import { Playground2 } from "./playground.js";
 import { Player } from "./player.js";
 import { Player2 } from "./player.js";
+import { Zombie } from "./zombie.js";
+import { Zombie2 } from "./zombie.js";
 
 class Game {
-  constructor(player1, player2, playground1, playground2) {
+  constructor(player1, player2, zombie1, zombie2, playground1, playground2) {
     this.player1 = player1;
     this.player2 = player2;
+    this.zombie1 = zombie1;
+    this.zombie2 = zombie2;
     this.playground1 = playground1;
     this.playground2 = playground2;
 
@@ -14,6 +18,10 @@ class Game {
     this.startContainer = document.getElementById("start-container");
     this.winnerContainer = document.getElementById("winner-container");
     this.bgSound = document.getElementById("bg-sound");
+    this.bgSound.volume = 0.4;
+
+    this.zombieMoveInterval = null;
+    this.zombie2MoveInterval = null;
   }
 
   startGame() {
@@ -22,6 +30,8 @@ class Game {
     this.winnerContainer.style.display = "none";
     this.gameContainer.style.display = "block";
     this.startTimer();
+    this.zombie1.zombieMove();
+    this.zombie2.zombieMove();
   }
 
   // rematch() {
@@ -52,9 +62,13 @@ class Game {
     // this.playground2.startBombInterval();
 
     this.player2.updatePlayerPosition();
+    this.zombie1.updateZombiePosition();
+    this.zombie2.updateZombiePosition();
   }
 
   refreshGame() {
+    this.player1.isDamaged = false;
+    this.player2.isDamaged = false;
     // Score to 0
     this.player1.score = 0;
     this.player1.updateScore();
@@ -72,10 +86,26 @@ class Game {
     this.player2.posY = Math.floor(playground2.numRows / 2 + 10);
     this.player1.updatePlayerPosition();
     this.player2.updatePlayerPosition();
+
+    if (this.zombieMoveInterval) {
+      clearInterval(this.zombieMoveInterval);
+    }
+
+    if (this.zombie2MoveInterval) {
+      clearInterval(this.zombie2MoveInterval);
+    }
+
+    this.zombieMoveInterval = setInterval(() => {
+      this.zombie1.zombieMove();
+    }, 1000);
+
+    this.zombie2MoveInterval = setInterval(() => {
+      this.zombie2.zombieMove();
+    }, 1000);
   }
 
   startTimer() {
-    let seconds = 60;
+    let seconds = 100;
     let timer = setInterval(() => {
       let timerBoard = document.getElementById("secs");
       timerBoard.innerHTML = `-${seconds}-`;
@@ -128,7 +158,17 @@ let player1 = new Player(playground1);
 let playground2 = new Playground2("playground2", 5, 5);
 let player2 = new Player2(playground2);
 
-let game1 = new Game(player1, player2, playground1, playground2);
+let zombie1 = new Zombie(playground1, player1);
+let zombie2 = new Zombie2(playground2, player2);
+
+let game1 = new Game(
+  player1,
+  player2,
+  zombie1,
+  zombie2,
+  playground1,
+  playground2
+);
 game1.preload();
 
 const startBtn = document.getElementById("start-btn");

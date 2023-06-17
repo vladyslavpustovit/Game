@@ -145,10 +145,14 @@ class Game {
   }
 
   audioPlay() {
-    if (this.bgSound.muted == false) {
-      this.bgSound.muted = true;
-    } else {
+    if (this.bgSound.muted) {
       this.bgSound.muted = false;
+      audioOn.style = "display: none";
+      audioOff.style = "display: inline-block";
+    } else {
+      this.bgSound.muted = true;
+      audioOff.style = "display: none";
+      audioOn.style = "display: inline-block";
     }
   }
 }
@@ -173,5 +177,9 @@ game1.preload();
 
 const startBtn = document.getElementById("start-btn");
 const rematchBtn = document.getElementById("rematch-btn");
+const audioOff = document.querySelector(".fa-volume-high");
+const audioOn = document.querySelector(".fa-volume-xmark");
+audioOff.addEventListener("click", game1.audioPlay.bind(game1));
+audioOn.addEventListener("click", game1.audioPlay.bind(game1));
 startBtn.addEventListener("click", game1.startGame.bind(game1));
 rematchBtn.addEventListener("click", game1.startGame.bind(game1));
